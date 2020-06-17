@@ -79,7 +79,7 @@ public class EmployeeRepository {
 	 * 従業員情報を変更する
 	 */
 	public void update(Employee employee) {
-		String sql="update employees set dependets_count=:dependentsCount where id=:id";
+		String sql="update employees set dependents_count=:dependentsCount where id=:id";
 		
 		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
 		
