@@ -2,7 +2,10 @@ package jp.co.sample.repository;
 
 
 
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -57,14 +60,16 @@ public class AdministratorRepository {
 	 * メーリアドレスとパスワードから管理者情報を数得する
 	 */
 	public Administrator findByMailAddressAndPassword(String mailAddress,String password) {
+		try {
 		String sql = "select * from administrators where mail_address=:mailAddress and password=:password";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress",mailAddress ).addValue("password", password);
 		
 		Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
-		if(administrator == null) {
+		
+		return administrator;
+		}catch(EmptyResultDataAccessException e) {
 			return null;
 		}
-		return administrator;
 	}
 }
