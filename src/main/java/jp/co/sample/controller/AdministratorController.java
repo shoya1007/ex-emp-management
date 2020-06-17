@@ -25,7 +25,7 @@ import javax.websocket.Session;
 @RequestMapping("/")
 public class AdministratorController {
 	@Autowired
-	private HttpSession Session;
+	private HttpSession session;
 
 	@Autowired
 	private AdministratorService administratorService;
@@ -101,13 +101,21 @@ public class AdministratorController {
 			model.addAttribute("errMessage","メールアドレスまたはパスワードが不正です。");
 			return "administrator/login";
 		}
-		Session.setAttribute("administratorName", administrator.getName());
+		session.setAttribute("administratorName", administrator.getName());
 		
 		
 		return "forward:/employee/showList";
 	}
 	
-	
+	/**
+	 * logoutメソッド
+	 * @return ログイン画面へリダイレクト
+	 */
+	@RequestMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
+	}
 	
 	
 }
