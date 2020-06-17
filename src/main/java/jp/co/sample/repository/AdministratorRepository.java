@@ -57,7 +57,7 @@ public class AdministratorRepository {
 	 * @param mailAddress
 	 * @param password
 	 * @return
-	 * メーリアドレスとパスワードから管理者情報を数得する
+	 * メールアドレスとパスワードから管理者情報を数得する
 	 */
 	public Administrator findByMailAddressAndPassword(String mailAddress,String password) {
 		try {

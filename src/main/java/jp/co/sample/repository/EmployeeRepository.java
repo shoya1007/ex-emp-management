@@ -35,7 +35,7 @@ public class EmployeeRepository {
 		employee.setTelephone(rs.getString("telephone"));
 		employee.setSalary(rs.getInt("salary"));
 		employee.setCharacterstics(rs.getString("characteristics"));
-		employee.setDependentsCount(rs.getInt("depends_count"));
+		employee.setDependentsCount(rs.getInt("dependents_count"));
 		return employee;
 	};
 	
@@ -43,10 +43,10 @@ public class EmployeeRepository {
 	 * findAllメソッド
 	 * @return Employee型のリスト
 	 * 従業員一覧情報を入社日順で取得する
-	 * 従業員が存在しない場合、0件の従業一覧を返す
+	 * 従業員が存在しない場合、0件の従業員一覧を返す
 	 */
 	public List<Employee> findAll() {
-		String sql = "select * from employees order by hire_date";
+		String sql = "select * from employees order by hire_date desc";
 
 		List<Employee> employeeList = template.query(sql, EMPLOYEE_ROW_MAPPER);
 

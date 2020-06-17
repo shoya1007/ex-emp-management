@@ -84,6 +84,13 @@ public class AdministratorController {
 		return "administrator/login";
 	}
 	
+	/**
+	 * loginメソッド
+	 * @param form
+	 * @param model
+	 * @return 従業員一覧画面へフォワード 管理者が存在しない場合はエラ〜メッセージをリクエストスコープに格納
+	 * 
+	 */
 	@RequestMapping("/login")
 	public String login(LoginForm form,Model model) {
 		String mailAddress=form.getMailAddress();
