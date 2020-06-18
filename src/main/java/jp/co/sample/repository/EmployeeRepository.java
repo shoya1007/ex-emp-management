@@ -12,10 +12,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import jp.co.sample.domain.Employee;
+
 /**
  * 
- * @author shoya
- * 従業員関連機能の処理の制御を行うコントローラ
+ * @author shoya 従業員関連機能の処理の制御を行うコントローラ
  */
 @Repository
 public class EmployeeRepository {
@@ -38,12 +38,11 @@ public class EmployeeRepository {
 		employee.setDependentsCount(rs.getInt("dependents_count"));
 		return employee;
 	};
-	
+
 	/**
 	 * findAllメソッド
-	 * @return Employee型のリスト
-	 * 従業員一覧情報を入社日順で取得する
-	 * 従業員が存在しない場合、0件の従業員一覧を返す
+	 * 
+	 * @return Employee型のリスト 従業員一覧情報を入社日順で取得する 従業員が存在しない場合、0件の従業員一覧を返す
 	 */
 	public List<Employee> findAll() {
 		String sql = "select * from employees order by hire_date desc";
@@ -59,9 +58,9 @@ public class EmployeeRepository {
 
 	/**
 	 * loadメソッド
+	 * 
 	 * @param id
-	 * @return employeeオブジェクト
-	 * 主キーから従業員情報を取得する
+	 * @return employeeオブジェクト 主キーから従業員情報を取得する
 	 */
 	public Employee load(Integer id) {
 		String sql = "select * from employees where id=:id";
@@ -72,17 +71,16 @@ public class EmployeeRepository {
 
 		return employee;
 	}
-	
+
 	/**
 	 * updateメソッド
-	 * @param employee
-	 * 従業員情報を変更する
+	 * 
+	 * @param employee 従業員情報を変更する
 	 */
 	public void update(Employee employee) {
-		String sql="update employees set dependents_count=:dependentsCount where id=:id";
-		
+		String sql = "update employees set dependents_count=:dependentsCount where id=:id";
+
 		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
-		
 		template.update(sql, param);
 	}
 }

@@ -3,6 +3,8 @@ package jp.co.sample.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,13 +26,12 @@ import javax.websocket.Session;
 @Controller
 @RequestMapping("/")
 public class AdministratorController {
+	
 	@Autowired
 	private HttpSession session;
 
 	@Autowired
 	private AdministratorService administratorService;
-	
-	
 	
 	/**
 	 * setUpAdministratorFormメソッド
@@ -66,13 +67,24 @@ public class AdministratorController {
 	 * @return 登録後の画面にリダイレクト
 	 */
 	@RequestMapping("/insert")
-	public String insert(InsertAdministratorForm form) {
-		Administrator administrator =new Administrator();
-		administrator.setName(form.getName());
-		administrator.setMailAddress(form.getMailAddress());
-		administrator.setPassword(form.getPassword());
-		administratorService.insert(administrator);
-		return("redirect:/");
+	public String insert(@Validated InsertAdministratorForm form,BindingResult result,Model model) {
+		if(result.hasErrors()) {
+			return "administrator/insert";
+		}
+		Administrator administrator = administratorService.findByMailAddress(form.getMailAddress());
+		if(administrator==null) {
+			Administrator administrator2=new Administrator();
+			administrator2.setName(form.getName());
+			administrator2.setMailAddress(form.getMailAddress());
+			administrator2.setPassword(form.getPassword());
+			administratorService.insert(administrator2);
+			return "redirect:/";
+		}else {
+			model.addAttribute("err","エラー");
+			model.addAttribute("errMessage","このメールアドレスは既に使われています");
+			return "administrator/insert";
+		}
+		
 	}
 	
 	/**

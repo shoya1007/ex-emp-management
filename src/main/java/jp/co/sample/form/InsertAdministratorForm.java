@@ -1,14 +1,20 @@
 package jp.co.sample.form;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 /**
  * 管理者登録時に使用するフォーム
+ * 
  * @author shoya
  *
  */
 public class InsertAdministratorForm {
+	@NotBlank(message = "名前は必須です")
 	private String name;
-	
+	@NotBlank(message = "メールアドレスは必須です")
 	private String mailAddress;
-	
+	@NotBlank(message = "パスワードは必須です")
 	private String password;
 
 	public String getName() {
@@ -40,8 +46,5 @@ public class InsertAdministratorForm {
 		// TODO 自動生成されたメソッド・スタブ
 		return super.toString();
 	}
-	
-	
-	
-	
+
 }

@@ -35,4 +35,9 @@ public class AdministratorService {
 		}
 		return administrator;
 	}
+	
+	public Administrator findByMailAddress(String mailAddress) {
+		Administrator administrator = administratorRepository.findByMailAddress(mailAddress);
+		return administrator;
+	}
 }

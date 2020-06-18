@@ -52,19 +52,24 @@ public class EmployeeController {
 	 * @return 従業員詳細画面にフォワード
 	 */
 	@RequestMapping("/showDetail")
-	public String showDetail(String id, Model model) {
+	public String showDetail(String id, Model model,UpdateEmployeeForm form) {
 		int intId = Integer.parseInt(id);
-		Employee employee = employeeService.showDetail(intId);
+		Employee employee=employeeService.showDetail(intId);
 		model.addAttribute("employee", employee);
 		return "employee/detail";
 	}
-
+	
+	/**
+	 * 扶養人数を更新するupdateメソッド
+	 * @param form
+	 * @return 従業員一覧にリダイレクト
+	 */
 	@RequestMapping("/update")
 	public String update(UpdateEmployeeForm form) {
 		Employee employee = new Employee();
 		employee.setId(Integer.parseInt(form.getId()));
 		employee.setDependentsCount(Integer.parseInt(form.getDependentsCount()));
-		employeeService.upate(employee);
+		employeeService.update(employee);
 		return "redirect:/employee/showList";
 	}
 }

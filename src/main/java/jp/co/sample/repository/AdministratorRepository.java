@@ -11,8 +11,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jp.co.sample.domain.Administrator;
+import jp.co.sample.form.InsertAdministratorForm;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -26,6 +28,7 @@ import org.springframework.jdbc.core.RowMapper;
 public class AdministratorRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
 	
 	
 	private static final RowMapper<Administrator> ADMINISTRATOR_ROW_MAPPER=(rs,i)->{
@@ -45,8 +48,10 @@ public class AdministratorRepository {
 	public void insert(Administrator administrator) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(administrator);
 		
+		
 		String sql = "insert into administrators (name,mail_address,password) "
 				+ "values(:name,:mailAddress,:password)";
+		
 		
 		template.update(sql, param);
 				
@@ -67,6 +72,17 @@ public class AdministratorRepository {
 		
 		Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
 		
+		return administrator;
+		}catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	public Administrator findByMailAddress(String mailAddress) {
+		try {
+		String sql = "select * from administrators where mail_address=:mailAddress";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
+		Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
 		return administrator;
 		}catch(EmptyResultDataAccessException e) {
 			return null;

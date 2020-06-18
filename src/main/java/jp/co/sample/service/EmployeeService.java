@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.IntegerDeserializer;
+
 import jp.co.sample.domain.Employee;
 import jp.co.sample.repository.EmployeeRepository;
 
@@ -38,8 +40,13 @@ public class EmployeeService {
 	 * 従業員情報を更新するupdateメソッド
 	 * @param employee
 	 */
-	public void upate(Employee employee) {
+	public void update(Employee employee) {
 		employeeRepository.update(employee);
+	}
+	
+	public Employee load(Integer id) {
+		Employee employee = employeeRepository.load(id);
+		return employee;
 	}
 
 }
